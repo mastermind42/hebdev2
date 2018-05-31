@@ -3159,43 +3159,189 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// import Body from './body';
+
 var App = function (_Component) {
   _inherits(App, _Component);
 
   function App() {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+
+    _this.state = {
+      searchQuery: '',
+      result: ''
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
   }
 
   _createClass(App, [{
+    key: 'handleSubmit',
+    value: async function handleSubmit(e) {
+      e.preventDefault();
+      console.log('asdf: ' + this.state.value);
+      var res = await _axios2.default.post('/submit', {
+        searchQuery: this.state.searchQuery
+      });
+      console.log(res.data);
+      this.setState({ result: res.data });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      _axios2.default.get('/test').then(function (v) {
-        return console.log(v.data);
-      });
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
-        { className: 'App' },
+        null,
         _react2.default.createElement(
-          'header',
-          { className: 'App-header' },
+          'h1',
+          null,
+          'HEB Searcher'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'container' },
           _react2.default.createElement(
-            'h1',
-            { className: 'App-title' },
-            'Welcome to React'
+            'form',
+            { onSubmit: this.handleSubmit },
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group' },
+              _react2.default.createElement('input', { type: 'search',
+                className: 'form-control',
+                value: this.state.value,
+                onChange: function onChange(e) {
+                  return _this2.setState({ searchQuery: e.target.value });
+                },
+                id: 'searchID',
+                'aria-describedby': 'search box'
+              })
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', className: 'btn btn-primary' },
+              'Submit'
+            )
           )
         ),
         _react2.default.createElement(
-          'p',
-          { className: 'App-intro' },
-          'To get starteddit ',
-          _react2.default.createElement(
-            'code',
-            null,
-            'src/App.js'
-          ),
-          ' and save to reload.'
+          'div',
+          { className: 'container' },
+          this.state.result !== '' && _react2.default.createElement(
+            'table',
+            { className: 'table' },
+            _react2.default.createElement(
+              'thead',
+              null,
+              _react2.default.createElement(
+                'tr',
+                null,
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'ID'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Description'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'LastSold'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'ShelfLife'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Department'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Price'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Unit'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'xFor'
+                ),
+                _react2.default.createElement(
+                  'th',
+                  null,
+                  'Cost'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'tbody',
+              null,
+              this.state.result.map(function (item) {
+                return _react2.default.createElement(
+                  'tr',
+                  { key: item._id },
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.ID
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.Description
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.lastSold
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.ShelfLife
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.Department
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.Price
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.Unit
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.xFor
+                  ),
+                  _react2.default.createElement(
+                    'td',
+                    null,
+                    item.Cost
+                  )
+                );
+              })
+            )
+          )
         )
       );
     }
