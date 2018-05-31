@@ -3151,6 +3151,10 @@ var _axios = __webpack_require__(88);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _Table = __webpack_require__(107);
+
+var _Table2 = _interopRequireDefault(_Table);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3158,8 +3162,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// import Body from './body';
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -3171,21 +3173,26 @@ var App = function (_Component) {
 
     _this.state = {
       searchQuery: '',
-      result: ''
+      result: [],
+      tableObjectList: []
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'componentDidMount',
+    value: async function componentDidMount() {
+      var tableObject = await _axios2.default.get('/getTable');
+      this.setState({ tableObjectList: tableObject.data });
+    }
+  }, {
     key: 'handleSubmit',
     value: async function handleSubmit(e) {
       e.preventDefault();
-      console.log('asdf: ' + this.state.value);
       var res = await _axios2.default.post('/submit', {
         searchQuery: this.state.searchQuery
       });
-      console.log(res.data);
       this.setState({ result: res.data });
     }
   }, {
@@ -3230,118 +3237,7 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
-          this.state.result !== '' && _react2.default.createElement(
-            'table',
-            { className: 'table' },
-            _react2.default.createElement(
-              'thead',
-              null,
-              _react2.default.createElement(
-                'tr',
-                null,
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'ID'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'Description'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'LastSold'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'ShelfLife'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'Department'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'Price'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'Unit'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'xFor'
-                ),
-                _react2.default.createElement(
-                  'th',
-                  null,
-                  'Cost'
-                )
-              )
-            ),
-            _react2.default.createElement(
-              'tbody',
-              null,
-              this.state.result.map(function (item) {
-                return _react2.default.createElement(
-                  'tr',
-                  { key: item._id },
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.ID
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.Description
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.lastSold
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.ShelfLife
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.Department
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.Price
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.Unit
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.xFor
-                  ),
-                  _react2.default.createElement(
-                    'td',
-                    null,
-                    item.Cost
-                  )
-                );
-              })
-            )
-          )
+          this.state.result.length !== 0 && _react2.default.createElement(_Table2.default, { searchResult: this.state.result })
         )
       );
     }
@@ -3644,7 +3540,7 @@ var _App = __webpack_require__(37);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _routes = __webpack_require__(107);
+var _routes = __webpack_require__(108);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -27711,6 +27607,184 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Table = function (_Component) {
+  _inherits(Table, _Component);
+
+  function Table(props) {
+    _classCallCheck(this, Table);
+
+    return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
+  }
+
+  _createClass(Table, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'table',
+        { className: 'table' },
+        _react2.default.createElement(
+          'thead',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            _react2.default.createElement(
+              'th',
+              null,
+              'ID'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'Description'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'LastSold'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'ShelfLife'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'Department'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'Price'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'Unit'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'xFor'
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              'Cost'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'tbody',
+          null,
+          this.props.searchResult.map(function (searchLine) {
+            return _react2.default.createElement(
+              'tr',
+              { key: searchLine._id },
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.ID
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.Description
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.lastSold
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.ShelfLife,
+                'd'
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.Department
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                '$',
+                searchLine.Price
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.Unit
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                searchLine.xFor
+              ),
+              _react2.default.createElement(
+                'td',
+                null,
+                '$',
+                searchLine.Cost
+              )
+            );
+          })
+        )
+      );
+    }
+  }]);
+
+  return Table;
+}(_react.Component);
+
+Table.propTypes = {
+  searchResult: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    ID: _propTypes2.default.number,
+    Description: _propTypes2.default.string,
+    lastSold: _propTypes2.default.string,
+    ShelfLife: _propTypes2.default.number,
+    Department: _propTypes2.default.string,
+    Price: _propTypes2.default.number,
+    Unit: _propTypes2.default.string,
+    xFor: _propTypes2.default.number,
+    Cost: _propTypes2.default.number
+  }))
+};
+
+exports.default = Table;
+
+/***/ }),
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

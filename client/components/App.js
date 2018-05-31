@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import '../css/App.css';
 import axios from 'axios';
-// import Body from './body';
+import Table from './Table';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       searchQuery: '',
-      result: '',
+      result: [],
+      tableObjectList: []
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  async componentDidMount() {
+    const tableObject = await axios.get('/getTable');
+    this.setState({ tableObjectList: tableObject.data });
+  }
   async handleSubmit(e) {
     e.preventDefault();
-    console.log(`asdf: ${this.state.value}`);
     const res = await axios.post('/submit', {
       searchQuery: this.state.searchQuery
     });
-    console.log(res.data);
     this.setState({ result: res.data })
   }
   render() {
@@ -40,37 +43,8 @@ class App extends Component {
           </form>
         </div>
         <div className="container">
-          {this.state.result !== '' &&
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Description</th>
-                  <th>LastSold</th>
-                  <th>ShelfLife</th>
-                  <th>Department</th>
-                  <th>Price</th>
-                  <th>Unit</th>
-                  <th>xFor</th>
-                  <th>Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.result.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.ID}</td>
-                    <td>{item.Description}</td>
-                    <td>{item.lastSold}</td>
-                    <td>{item.ShelfLife}</td>
-                    <td>{item.Department}</td>
-                    <td>{item.Price}</td>
-                    <td>{item.Unit}</td>
-                    <td>{item.xFor}</td>
-                    <td>{item.Cost}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {this.state.result.length !== 0 &&
+            <Table searchResult={this.state.result} />
           }
         </div>
       </div>
