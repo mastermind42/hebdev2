@@ -3163,6 +3163,24 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// ID: '',
+// Description: '',
+// lastSold: '',
+// ShelfLife: '',
+// Department: '',
+// Price: '',
+// Unit: '',
+// xFor: '',
+// Cost: '',
+
+{/* <input type="search"
+  className="form-control"
+  value={this.state.search[catagory]}
+  onChange={e => this.setState({ [this.state.search[catagory]]: e.target.value })}
+  id={catagory}
+  aria-describedby="catagory search field"
+  /> */}
+
 var App = function (_Component) {
   _inherits(App, _Component);
 
@@ -3172,26 +3190,38 @@ var App = function (_Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
     _this.state = {
-      searchQuery: '',
+      tableList: [],
       result: [],
-      tableObjectList: []
+      search: {}
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.onChange = _this.onChange.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: 'onChange',
+    value: async function onChange(e, catagory) {
+      var newSearch = this.state.search;
+      if (e.target.value !== '') {
+        newSearch[catagory] = e.target.value;
+      } else {
+        delete newSearch[catagory];
+      }
+      this.setState({ search: newSearch });
+    }
+  }, {
     key: 'componentDidMount',
     value: async function componentDidMount() {
-      var tableObject = await _axios2.default.get('/getTable');
-      this.setState({ tableObjectList: tableObject.data });
+      var result = await _axios2.default.get('/getTable');
+      this.setState({ tableList: result.data });
     }
   }, {
     key: 'handleSubmit',
     value: async function handleSubmit(e) {
       e.preventDefault();
       var res = await _axios2.default.post('/submit', {
-        searchQuery: this.state.searchQuery
+        searchQuery: this.state.search
       });
       this.setState({ result: res.data });
     }
@@ -3217,14 +3247,29 @@ var App = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group' },
-              _react2.default.createElement('input', { type: 'search',
-                className: 'form-control',
-                value: this.state.value,
-                onChange: function onChange(e) {
-                  return _this2.setState({ searchQuery: e.target.value });
-                },
-                id: 'searchID',
-                'aria-describedby': 'search box'
+              this.state.tableList.map(function (catagory) {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'input-group mb-3' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'input-group-prepend' },
+                    _react2.default.createElement(
+                      'span',
+                      { className: 'input-group-text', id: catagory },
+                      catagory
+                    )
+                  ),
+                  _react2.default.createElement('input', {
+                    type: catagory,
+                    className: 'form-control',
+                    placeholder: catagory,
+                    value: _this2.state.search[catagory],
+                    onChange: function onChange(e) {
+                      return _this2.onChange(e, catagory);
+                    }
+                  })
+                );
               })
             ),
             _react2.default.createElement(

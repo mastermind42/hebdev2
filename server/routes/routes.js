@@ -12,12 +12,26 @@ router.get('/getTable', (req, res) => {
   res.json(tableObject)
 });
 
+async function searchAlg(searchQuery, entireDB) {
+  const result = entireDB.reduce((accumulator, current) => {
+    for(key in searchQuery) {
+      if(current[key] !== searchQuery[key]) {
+        return accumulator;
+      }
+    }
+    accumulator.push(current);
+    return accumulator;
+  }, [])
+  return result;
+}
+
 router.post('/submit', (req, res) => {
   const searchQuery = req.body.searchQuery;
-  store.find({ $and: [{ Department: searchQuery }]}, (err, result) => {
+  console.log(searchQuery);
+  store.find({}, (err, result) => {
     if(err) console.log(err);
-    res.json(result);
-  })
+    searchAlg(searchQuery, result).then(results => res.json(results));
+  });
 });
 
 module.exports = router;

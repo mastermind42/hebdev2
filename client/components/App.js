@@ -3,27 +3,59 @@ import '../css/App.css';
 import axios from 'axios';
 import Table from './Table';
 
+// ID: '',
+// Description: '',
+// lastSold: '',
+// ShelfLife: '',
+// Department: '',
+// Price: '',
+// Unit: '',
+// xFor: '',
+// Cost: '',
+
+{/* <input type="search"
+className="form-control"
+value={this.state.search[catagory]}
+onChange={e => this.setState({ [this.state.search[catagory]]: e.target.value })}
+id={catagory}
+aria-describedby="catagory search field"
+/> */}
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      searchQuery: '',
+      tableList: [],
       result: [],
-      tableObjectList: []
+      search: {},
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
+  
+  async onChange(e, catagory) {
+    const newSearch = this.state.search;
+    if(e.target.value !== '') {
+      newSearch[catagory] = e.target.value;
+    } else {
+      delete newSearch[catagory];
+    }
+    this.setState({ search: newSearch });
+  }
+
   async componentDidMount() {
-    const tableObject = await axios.get('/getTable');
-    this.setState({ tableObjectList: tableObject.data });
+    const result = await axios.get('/getTable');
+    this.setState({ tableList: result.data });
   }
+
   async handleSubmit(e) {
     e.preventDefault();
     const res = await axios.post('/submit', {
-      searchQuery: this.state.searchQuery
+      searchQuery: this.state.search
     });
     this.setState({ result: res.data })
   }
+
   render() {
     return (
       <div>
@@ -31,13 +63,20 @@ class App extends Component {
         <div className="container">
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="search"
-                className="form-control"
-                value={this.state.value}
-                onChange={(e) => this.setState({ searchQuery: e.target.value })}
-                id="searchID"
-                aria-describedby="search box"
-              />
+              {this.state.tableList.map((catagory) => (
+                <div className="input-group mb-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id={catagory}>{catagory}</span>
+                  </div>
+                  <input
+                    type={catagory}
+                    className="form-control"
+                    placeholder={catagory}
+                    value={this.state.search[catagory]}
+                    onChange={e => this.onChange(e, catagory)}
+                  />
+                </div>  
+              ))}
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
           </form>
