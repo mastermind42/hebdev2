@@ -1,3 +1,10 @@
+This project is a MERN stack application for the HEB Developer 2 test.
+
+# Installation
+After copying the repo, do the following:
+1. ```js npm install```
+2. ```js npm start ```
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
