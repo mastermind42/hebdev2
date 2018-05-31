@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const storeModel = require('../models/store');
 const fs = require('fs');
+const config = require('../config');
 
-mongoose.connect('mongodb://app:password1@ds137740.mlab.com:37740/heb');
+mongoose.connect(`mongodb://${config.username}:${config.password}@${config.mongodbIP}`);
 
 const db = mongoose.connection;
 

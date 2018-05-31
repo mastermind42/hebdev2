@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const config = require('../config');
 const router = require('./routes/routes.js')
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended:false }));
 
-mongoose.connect('mongodb://admin:password1@ds137740.mlab.com:37740/heb');
+mongoose.connect(`mongodb://${config.username}:${config.password}@${config.mongodbIP}`);
 
 app.use('/', router);
 
