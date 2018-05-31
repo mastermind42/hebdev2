@@ -3163,24 +3163,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// ID: '',
-// Description: '',
-// lastSold: '',
-// ShelfLife: '',
-// Department: '',
-// Price: '',
-// Unit: '',
-// xFor: '',
-// Cost: '',
-
-{/* <input type="search"
-  className="form-control"
-  value={this.state.search[catagory]}
-  onChange={e => this.setState({ [this.state.search[catagory]]: e.target.value })}
-  id={catagory}
-  aria-describedby="catagory search field"
-  /> */}
-
 var App = function (_Component) {
   _inherits(App, _Component);
 
@@ -3234,48 +3216,64 @@ var App = function (_Component) {
         'div',
         null,
         _react2.default.createElement(
-          'h1',
+          'header',
           null,
-          'HEB Searcher'
+          _react2.default.createElement(
+            'nav',
+            { className: 'navbar navbar-dark bg-dark' },
+            _react2.default.createElement(
+              'a',
+              { className: 'navbar-brand', href: '#' },
+              'HEB Dev II Grocery Searcher'
+            )
+          )
         ),
         _react2.default.createElement(
-          'div',
-          { className: 'container' },
+          'main',
+          null,
           _react2.default.createElement(
-            'form',
-            { onSubmit: this.handleSubmit },
+            'div',
+            { className: 'container mt-4' },
             _react2.default.createElement(
               'div',
-              { className: 'form-group' },
-              this.state.tableList.map(function (catagory) {
-                return _react2.default.createElement(
-                  'div',
-                  { className: 'input-group mb-3' },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'input-group-prepend' },
-                    _react2.default.createElement(
-                      'span',
-                      { className: 'input-group-text', id: catagory },
-                      catagory
-                    )
-                  ),
-                  _react2.default.createElement('input', {
-                    type: catagory,
-                    className: 'form-control',
-                    placeholder: catagory,
-                    value: _this2.state.search[catagory],
-                    onChange: function onChange(e) {
-                      return _this2.onChange(e, catagory);
-                    }
-                  })
-                );
-              })
+              { className: 'text-nowrap' },
+              'Search by any and all fields.'
             ),
             _react2.default.createElement(
-              'button',
-              { type: 'submit', className: 'btn btn-primary' },
-              'Submit'
+              'form',
+              { onSubmit: this.handleSubmit },
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                this.state.tableList.map(function (catagory) {
+                  return _react2.default.createElement(
+                    'div',
+                    { className: 'input-group mb-1' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'input-group-prepend' },
+                      _react2.default.createElement(
+                        'span',
+                        { className: 'input-group-text', id: catagory },
+                        catagory
+                      )
+                    ),
+                    _react2.default.createElement('input', {
+                      type: catagory,
+                      className: 'form-control',
+                      value: _this2.state.search[catagory],
+                      onChange: function onChange(e) {
+                        return _this2.onChange(e, catagory);
+                      }
+                    })
+                  );
+                })
+              ),
+              _react2.default.createElement(
+                'button',
+                { type: 'submit', className: 'btn btn-primary btn-lg' },
+                'Submit'
+              )
             )
           )
         ),
@@ -3283,6 +3281,15 @@ var App = function (_Component) {
           'div',
           { className: 'container' },
           this.state.result.length !== 0 && _react2.default.createElement(_Table2.default, { searchResult: this.state.result })
+        ),
+        _react2.default.createElement(
+          'footer',
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'fixed-bottom text-right' },
+            'Rohit Saxena 2018'
+          )
         )
       );
     }

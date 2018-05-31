@@ -35,39 +35,50 @@ class App extends Component {
     const res = await axios.post('/submit', {
       searchQuery: this.state.search
     });
-    this.setState({ result: res.data })
+    this.setState({ result: res.data });
   }
 
   render() {
     return (
       <div>
-        <h1>HEB Searcher</h1>
-        <div className="container">
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              {this.state.tableList.map((catagory) => (
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id={catagory}>{catagory}</span>
-                  </div>
-                  <input
-                    type={catagory}
-                    className="form-control"
-                    placeholder={catagory}
-                    value={this.state.search[catagory]}
-                    onChange={e => this.onChange(e, catagory)}
-                  />
-                </div>  
-              ))}
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </form>
-        </div>
+        <header>
+          <nav className="navbar navbar-dark bg-dark">
+            <a className="navbar-brand" href="#">HEB Dev II Grocery Searcher</a>
+          </nav>
+        </header>
+        <main>
+          <div className="container mt-4">
+            <div className="text-nowrap">Search by any and all fields.</div>
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                {this.state.tableList.map((catagory) => (
+                  <div className="input-group mb-1">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id={catagory}>{catagory}</span>
+                    </div>
+                    <input
+                      type={catagory}
+                      className="form-control"
+                      value={this.state.search[catagory]}
+                      onChange={e => this.onChange(e, catagory)}
+                    />
+                  </div>  
+                ))}
+              </div>
+              <button type="submit" className="btn btn-primary btn-lg">Submit</button>
+            </form>
+          </div>
+        </main>
         <div className="container">
           {this.state.result.length !== 0 &&
             <Table searchResult={this.state.result} />
           }
         </div>
+        <footer>
+          <div className="fixed-bottom text-right">
+            Rohit Saxena 2018
+          </div>
+        </footer>
       </div>
     );
   }
