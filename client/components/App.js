@@ -3,24 +3,6 @@ import '../css/App.css';
 import axios from 'axios';
 import Table from './Table';
 
-// ID: '',
-// Description: '',
-// lastSold: '',
-// ShelfLife: '',
-// Department: '',
-// Price: '',
-// Unit: '',
-// xFor: '',
-// Cost: '',
-
-{/* <input type="search"
-className="form-control"
-value={this.state.search[catagory]}
-onChange={e => this.setState({ [this.state.search[catagory]]: e.target.value })}
-id={catagory}
-aria-describedby="catagory search field"
-/> */}
-
 class App extends Component {
   constructor() {
     super();
